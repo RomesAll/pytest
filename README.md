@@ -25,3 +25,23 @@ def test_divide(x, y, res):
 ```
 (venv) roman@RomanPC:~/Рабочий стол/pytest$ pytest tests/test_main.py::test_divide[1-2-0.5]
 ```
+
+Для группировки тестов по какому либо призноку используем классы.
+Чтобы запустить конкретный класс с тестами мы используем:
+```
+(venv) roman@RomanPC:~/Рабочий стол/pytest$ pytest tests/test_main.py::TestCalc
+```
+Для обработки ошибок мы используем:
+
+```
+from contextlib import nullcontext as does_not_raise
+@pytest.mark.parametrize(
+    "x, y, res, expectation", [
+        (1, 2, 0.5, does_not_raise()), 
+        (4, 2, 2, does_not_raise()), 
+        (5, "-1", -5, pytest.raises(TypeError))
+    ])
+def test_divide(self, x, y, res, expectation):
+    with expectation:
+        assert Calculator().divide(x, y) == res
+```
